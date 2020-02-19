@@ -2,16 +2,16 @@
 
 
 let a = [
-    [0,1,1],
-    [1,0,1],
-    [1,1,1]
+    [1,1,1,1,1,1],
+    [1,1,0,0,1,1],
+    [1,1,0,0,1,1],
+    [1,0,0,1,0,1],
+    [1,1,0,0,1,1],
+    [0,1,1,1,0,1],
+    [0,1,1,1,1,1],
 ]
 
-let soln = [
-    [0,0,0],
-    [0,0,0],
-    [0,0,0]
-]
+let soln = []
 
 globalReached = 0
 
@@ -19,9 +19,20 @@ function checkForGlobalReach () {
     return globalReached === 1
 }
 
+function prepareSolutionArray() {
+    for(let i =0; i< a.length; i++) {
+        soln.push([])
+        for( let j = 0; j< a[0].length; j++) {
+            soln[i][j] = 0
+        }
+    }
+}
+
+prepareSolutionArray();
+
 function checkForPathExists(array, i, j, firstTime = false) {
     if (firstTime) {
-        if (array[0][0] === 1 ) {
+        if (array[0][0] === 1 && array[array.length - 1][array[0].length - 1] === 1 ) {
             soln[0][0] = 1
             checkForPathExists(array, 0, 0)
             return;
@@ -31,7 +42,7 @@ function checkForPathExists(array, i, j, firstTime = false) {
         }
     }
     soln[i][j] = 1;
-    if (i === 2 && j === 2) {
+    if (i === array.length - 1 && j === array[0].length - 1) {
         // solution is reached
         globalReached = 1
         return
@@ -39,13 +50,13 @@ function checkForPathExists(array, i, j, firstTime = false) {
     if (checkForGlobalReach()) {
         return
     };
-    if(j - 1 >= 0 && array[i][j-1] === 1 && soln[i][j-1] !== 1) {
-        checkForPathExists(array, i, j-1)
+    if(i + 1 <= array.length - 1 && array[i+1][j] === 1 && soln[i+1][j] !== 1) {
+        checkForPathExists(array, i+1, j)
     }
     if (checkForGlobalReach()) {
         return
     };
-    if(j + 1 <= 2 && array[i][j+1] === 1 && soln[i][j+1] !== 1) {
+    if(j + 1 <= array[0].length - 1 && array[i][j+1] === 1 && soln[i][j+1] !== 1) {
         checkForPathExists(array, i, j+1)
     }
     if (checkForGlobalReach()) {
@@ -57,8 +68,8 @@ function checkForPathExists(array, i, j, firstTime = false) {
     if (checkForGlobalReach()) {
         return
     };
-    if(i + 1 <= 2 && array[i+1][j] === 1 && soln[i+1][j] !== 1) {
-        checkForPathExists(array, i+1, j)
+    if(j - 1 >= 0 && array[i][j-1] === 1 && soln[i][j-1] !== 1) {
+        checkForPathExists(array, i, j-1)
     }
     if (checkForGlobalReach()) {
         return
@@ -70,6 +81,10 @@ function checkForPathExists(array, i, j, firstTime = false) {
 
 checkForPathExists(a, 0, 0, true)
 
-for(let i = 0; i<3; i++) {
-    console.log(soln[i])
+if (globalReached === 1) {
+    for(let i = 0; i<a.length; i++) {
+        console.log(soln[i])
+    }
+} else {
+    console.log('NO result.')
 }
