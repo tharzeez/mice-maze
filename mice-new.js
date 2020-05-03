@@ -47,28 +47,16 @@ function checkForPathExists(array, i, j, firstTime = false) {
         globalReached = 1
         return
     }
-    if (checkForGlobalReach()) {
-        return
-    };
-    if(i + 1 <= array.length - 1 && array[i+1][j] === 1 && soln[i+1][j] !== 1) {
+    if(i + 1 <= array.length - 1 && array[i+1][j] === 1 && soln[i+1][j] !== 1 && !checkForGlobalReach() ) {
         checkForPathExists(array, i+1, j)
     }
-    if (checkForGlobalReach()) {
-        return
-    };
-    if(j + 1 <= array[0].length - 1 && array[i][j+1] === 1 && soln[i][j+1] !== 1) {
+    if(j + 1 <= array[0].length - 1 && array[i][j+1] === 1 && soln[i][j+1] !== 1 && !checkForGlobalReach()) {
         checkForPathExists(array, i, j+1)
     }
-    if (checkForGlobalReach()) {
-        return
-    };
-    if(i - 1 >= 0 && array[i-1][j] === 1 && soln[i-1][j] !== 1) {
+    if(i - 1 >= 0 && array[i-1][j] === 1 && soln[i-1][j] !== 1 && !checkForGlobalReach()) {
         checkForPathExists(array, i-1, j)
     }
-    if (checkForGlobalReach()) {
-        return
-    };
-    if(j - 1 >= 0 && array[i][j-1] === 1 && soln[i][j-1] !== 1) {
+    if(j - 1 >= 0 && array[i][j-1] === 1 && soln[i][j-1] !== 1 && !checkForGlobalReach()) {
         checkForPathExists(array, i, j-1)
     }
     if (checkForGlobalReach()) {
